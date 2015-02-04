@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150201105121) do
   end
 
   add_index "posts", ["created_at"], name: "index_posts_on_created_at", using: :btree
+  add_index "posts", ["previous_urls"], name: "index_posts_on_previous_urls", using: :gin
   add_index "posts", ["published_at"], name: "index_posts_on_published_at", using: :btree
 
   create_table "users", force: :cascade do |t|

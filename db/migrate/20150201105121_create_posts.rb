@@ -8,7 +8,7 @@ class CreatePosts < ActiveRecord::Migration
       # URL handling
       t.string :slug
       t.string :url
-      t.string :previous_urls, array: true, default: []
+      t.string :previous_urls, array: true, default: [], index: { using: :gin }
 
       # Body & Data
       t.jsonb  :data, null: false, default: {}

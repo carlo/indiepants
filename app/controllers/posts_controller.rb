@@ -7,19 +7,15 @@ class PostsController < ApplicationController
   end
 
   def show
-    posts = current_site.posts
-    @post = if params[:id]
-      posts.find(params[:id])
-    else
-      date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-      posts
-        .where(published_at: (date.beginning_of_day)..(date.end_of_day))
-        .where(slug: params[:slug]).take!
-    end
+    @post = find_post_by_id ||
+      find_post_by_date_and_slug ||
+      find_post_by_previous_url
+
+    raise "post not found" if @post.blank?
 
     # Enforce canonical URL
     if request.format.html? && request.url != @post.url
-      return redirect_to(@post.url)
+      return redirect_to(@post.url, status: 301)
     end
 
     respond_with @post
@@ -59,5 +55,20 @@ private
 
   def post_params
     params.require(:post).permit(:slug, :body)
+  end
+
+  def find_post_by_id
+    current_site.posts.find(params[:id]) if params[:id]
+  end
+
+  def find_post_by_date_and_slug
+    date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+    current_site.posts
+      .where(published_at: (date.beginning_of_day)..(date.end_of_day))
+      .where(slug: params[:slug]).take
+  end
+
+  def find_post_by_previous_url
+    current_site.posts.where("? = ANY (previous_urls)", request.url).take
   end
 end

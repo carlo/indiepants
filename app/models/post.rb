@@ -35,6 +35,9 @@ class Post < ActiveRecord::Base
 
       # Update URL
       self.url = generate_url
+      if url_changed?
+        self.previous_urls << url_was
+      end
     end
   end
 
