@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessor :url_builder
+  include PostTypeSupport
 
   scope :latest, -> { order("created_at DESC") }
 
@@ -12,16 +12,15 @@ class Post < ActiveRecord::Base
     # some extra stuff we'll want to do.
     #
     if user.local?
-      self.slug = generate_slug
-
       # Publish new posts right away
       self.published_at = Time.now
 
-      # build the default URL
-      self.url = generate_url
-
       # Render HTML
-      self.body_html = generate_html
+      self.html = generate_html
+
+      # build the default URL
+      self.slug = generate_slug
+      self.url = generate_url
     end
   end
 
@@ -34,11 +33,14 @@ class Post < ActiveRecord::Base
   end
 
   def generate_html
-    Formatter.new(body).complete.to_s
+    # By default, just set #html to itself. Of course, this method is
+    # expected to be overloaded in child classes. Duh!
+    #
+    html
   end
 
   def generate_slug
-    body.truncate(20).parameterize
+    SecureRandom.hex(6)
   end
 
   def generate_url

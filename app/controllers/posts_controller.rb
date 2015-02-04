@@ -19,7 +19,16 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = current_site.posts.create(post_params)
+    # A bit of a workaround; if we feed the type to Post.new directly,
+    # ActiveRecord apparently doesn't go through .find_sti_class at all.
+    #
+    klass = Post.find_sti_class(params[:post][:type])
+
+    # Create the post
+    @post = klass.create(post_params) do |post|
+      post.user = current_site
+    end
+
     respond_with @post, location: :root
   end
 

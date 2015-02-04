@@ -19,11 +19,12 @@ ActiveRecord::Schema.define(version: 20150201105121) do
 
   create_table "posts", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "host",                       null: false
+    t.string   "type"
     t.string   "slug"
     t.string   "url"
     t.string   "previous_urls", default: [],              array: true
-    t.string   "body"
-    t.string   "body_html"
+    t.jsonb    "data",          default: {}, null: false
+    t.text     "html"
     t.datetime "published_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
