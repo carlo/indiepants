@@ -28,4 +28,11 @@ module PostTypeSupport
       self.to_s.underscore.gsub('/', '.')
     end
   end
+
+  # Default _all_ post types to the same partial. Custom post type
+  # classes are, of course, invited to override this.
+  #
+  def to_partial_path
+    "posts/post"
+  end
 end
