@@ -16,6 +16,13 @@ class PostsController < ApplicationController
         .where(published_at: (date.beginning_of_day)..(date.end_of_day))
         .where(slug: params[:slug]).take!
     end
+
+    # Enforce canonical URL
+    if request.format.html? && request.url != @post.url
+      return redirect_to(@post.url)
+    end
+
+    respond_with @post
   end
 
   def create
