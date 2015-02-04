@@ -20,7 +20,7 @@ module PostTypeSupport
   #
   module ClassMethods
     def find_sti_class(name)
-      klass = name.to_s.gsub('.', '/').classify
+      klass = name.gsub('.', '/').classify
       klass.safe_constantize || Post
     end
 
