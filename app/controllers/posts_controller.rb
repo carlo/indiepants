@@ -36,7 +36,7 @@ class PostsController < ApplicationController
       post.user = current_site
     end
 
-    respond_with @post, location: :root
+    respond_with @post, location: @post.url
   end
 
   def edit
