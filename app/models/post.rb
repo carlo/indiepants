@@ -7,6 +7,11 @@ class Post < ActiveRecord::Base
     foreign_key: "host",
     primary_key: "host"
 
+  before_validation do
+    # Make sure a slug is available
+    self.slug ||= generate_slug
+  end
+
   before_create do
     # If this post is being created by a local, hosted user, there's
     # some extra stuff we'll want to do.
@@ -19,7 +24,6 @@ class Post < ActiveRecord::Base
       self.html = generate_html
 
       # build the default URL
-      self.slug ||= generate_slug
       self.url = generate_url
     end
   end
@@ -29,15 +33,14 @@ class Post < ActiveRecord::Base
       # Update HTML
       self.html = generate_html
 
-      # Update Slug
-      self.slug ||= generate_slug
-
       # Update URL
       self.url = generate_url
     end
   end
 
   validate :validate_url_matches_host
+  validates_presence_of :slug
+  validates_uniqueness_of :slug
 
   def validate_url_matches_host
     if url && user && URI(url).host != user.host
