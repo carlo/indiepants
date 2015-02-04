@@ -39,8 +39,11 @@ class Post < ActiveRecord::Base
   end
 
   validate :validate_url_matches_host
-  validates_presence_of :slug
-  validates_uniqueness_of :slug
+  validates :slug,
+    presence: true,
+    uniqueness: true,
+    format: /\A[a-zA-Z0-9_-]+\Z/
+
 
   def validate_url_matches_host
     if url && user && URI(url).host != user.host
