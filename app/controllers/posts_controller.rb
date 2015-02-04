@@ -25,6 +25,11 @@ class PostsController < ApplicationController
     respond_with @post
   end
 
+  def new
+    @post = current_site.posts.build
+    respond_with @post
+  end
+
   def create
     # A bit of a workaround; if we feed the type to Post.new directly,
     # ActiveRecord apparently doesn't go through .find_sti_class at all.
