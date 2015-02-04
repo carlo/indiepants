@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :post do
-    type 'pants.post'
     user
-    body "Lorem Ipsum."
+    html "<p>Lorem Ipsum.</p>"
   end
 end
