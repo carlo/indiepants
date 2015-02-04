@@ -32,6 +32,17 @@ class PostsController < ApplicationController
     respond_with @post, location: :root
   end
 
+  def edit
+    @post = current_site.posts.find(params[:id])
+    respond_with @post
+  end
+
+  def update
+    @post = current_site.posts.find(params[:id])
+    @post.update_attributes(post_params)
+    respond_with @post, location: @post.url
+  end
+
 private
 
   def post_params

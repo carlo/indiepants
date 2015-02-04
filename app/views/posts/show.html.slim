@@ -1,1 +1,8 @@
 = render @post
+
+- if logged_in?
+  .post-information
+    p = link_to "Edit this Post", edit_post_path(@post)
+    p
+      ' This is a <strong>#{@post.type}</strong> with the ID <strong>#{@post.id}</strong>.
+      ' Its current canonical URL is <strong>#{@post.url}</strong>.

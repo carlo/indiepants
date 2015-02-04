@@ -24,6 +24,19 @@ class Post < ActiveRecord::Base
     end
   end
 
+  before_update do
+    if user.local?
+      # Update HTML
+      self.html = generate_html
+
+      # Update Slug
+      self.slug = generate_slug
+
+      # Update URL
+      self.url = generate_url
+    end
+  end
+
   validate :validate_url_matches_host
 
   def validate_url_matches_host

@@ -1,0 +1,4 @@
+= simple_form_for post, as: :post, url: post_path(post) do |f|
+  = f.input :body, as: :text
+  .buttons
+    = f.submit
