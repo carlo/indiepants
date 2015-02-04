@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
       self.html = generate_html
 
       # build the default URL
-      self.slug = generate_slug
+      self.slug ||= generate_slug
       self.url = generate_url
     end
   end
@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
       self.html = generate_html
 
       # Update Slug
-      self.slug = generate_slug
+      self.slug ||= generate_slug
 
       # Update URL
       self.url = generate_url
