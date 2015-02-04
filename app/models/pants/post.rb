@@ -6,6 +6,6 @@ class Pants::Post < ::Post
   end
 
   def generate_slug
-    body.truncate(20).parameterize
+    body.truncate(80).parameterize
   end
 end
