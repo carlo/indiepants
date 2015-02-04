@@ -1,11 +1,5 @@
 class Pants::Post < ::Post
-  def body
-    data["body"]
-  end
-
-  def body=(v)
-    data["body"] = v
-  end
+  store_accessor :data, :body
 
   def generate_html
     Formatter.new(body).complete.to_s
