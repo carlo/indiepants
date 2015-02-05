@@ -23,6 +23,9 @@ RUN mkdir /home/app/indiepants
 ADD . /home/app/indiepants
 RUN chown -R app:app /home/app/indiepants
 
+# Compile assets
+WORKDIR /home/app/indiepants
+RUN sudo -u app RAILS_ENV=production bin/rake assets:precompile
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
