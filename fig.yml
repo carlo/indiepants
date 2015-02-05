@@ -1,0 +1,15 @@
+db:
+  image: postgres
+  ports:
+    - "5432"
+web:
+  image: hmans/indiepants
+  # volumes:
+  #   - .:/myapp
+  ports:
+    - "8080:80"
+  links:
+    - db
+  environment:
+    - RAILS_ENV=production
+    - SECRET_KEY_BASE
