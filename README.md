@@ -20,6 +20,24 @@ Pants Phase 2: A clean IndieWeb implementation of Pants.
 * Ruby 2.2.0
 * PostgreSQL 9.4
 
+### Running with Docker
+
+After installing Docker (or boot2docker if you're on OS X or Windows) and Fig,
+you can quickly fire up an instance of IndiePants by issuing the following command:
+
+``` sh
+# Ideally, the SECRET_KEY_BASE should be unique. And secret.
+SECRET_KEY_BASE=123456abcdef fig up -d
+```
+
+When running IndiePants for the first time (or after updating the Docker images to
+a new version), you'll probably want to run its update script. While the containers
+are running, issue the following command:
+
+``` sh
+fig run web rake indiepants:update
+```
+
 ### Deploy on Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
