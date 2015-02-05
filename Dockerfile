@@ -15,8 +15,8 @@ RUN bundle install --jobs=3 --retry=3
 
 # Yes, we want nginx and passenger.
 RUN rm -f /etc/service/nginx/down /etc/nginx/sites-enabled/default
-ADD config/nginx-site.conf /etc/nginx/sites-enabled/indiepants.conf
-ADD config/nginx.conf /etc/nginx/main.d/indiepants-setup.conf
+ADD config/docker/nginx-site.conf /etc/nginx/sites-enabled/indiepants.conf
+ADD config/docker/nginx.conf /etc/nginx/main.d/indiepants-setup.conf
 
 # Install IndiePants code
 RUN mkdir /home/app/indiepants
