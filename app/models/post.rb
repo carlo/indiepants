@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   acts_as_paranoid
 
   include PostTypeSupport
+  include PostFetching
 
   scope :latest, -> { order("created_at DESC") }
 
@@ -112,33 +113,5 @@ class Post < ActiveRecord::Base
   def url=(v)
     self.host = URI(v).host
     write_attribute(:url, v)
-  end
-
-  def fetch!
-    return false if local?
-
-    # For now, simply fetch my URL and store the HTML. Later on, we'll want
-    # to do some extra bits, including looking for pants-json or microformats.
-    self.html = HTTParty.get(url)
-
-    # Success!
-    true
-  end
-
-  # Returns true if it's time to fetch the contents for this post.
-  #
-  def fetch?
-    new_record? || (remote? && updated_at < 30.minutes.ago)
-  end
-
-  class << self
-    def from_url(url)
-      Post.where(url: url).first_or_initialize.tap do |post|
-        if post.fetch?
-          post.fetch!
-          post.save!
-        end
-      end
-    end
   end
 end
