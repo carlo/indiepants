@@ -18,11 +18,7 @@ private
     # check if target is on this domain
     return false unless URI(target).host == current_site.host
 
-    # fetch source document
-    doc = HTTParty.get(source)
-
-    # test if source document actually links to target
-    # extract microformat data from source document
-    # store webmention
+    # Create a new Webmention instance and let it handle everything else
+    current_site.webmentions.create!(source, target)
   end
 end
