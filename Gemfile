@@ -23,6 +23,9 @@ gem 'simple_form'
 # Data
 gem 'paranoia', '~> 2.0'
 
+# HTTP & IndieWeb
+gem 'httparty'
+
 # API
 # gem 'jbuilder', '~> 2.0'
 
