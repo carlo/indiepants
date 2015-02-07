@@ -25,6 +25,7 @@ gem 'paranoia', '~> 2.0'
 
 # HTTP & IndieWeb
 gem 'httparty'
+gem 'microformats2'
 
 # API
 # gem 'jbuilder', '~> 2.0'
