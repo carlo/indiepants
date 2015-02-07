@@ -25,14 +25,14 @@ gem 'paranoia', '~> 2.0'
 
 # HTTP & IndieWeb
 gem 'httparty'
-gem 'microformats2'
 
 # API
 # gem 'jbuilder', '~> 2.0'
 
 
-# Deployment
+# Development
 group :development, :test do
+  gem 'pry-rails'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'better_errors'
