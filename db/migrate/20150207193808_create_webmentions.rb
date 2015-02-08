@@ -6,7 +6,6 @@ class CreateWebmentions < ActiveRecord::Migration
       t.string :target
       t.uuid :source_post_id, index: true
       t.uuid :target_post_id, index: true
-      t.string :rel, index: true
 
       t.timestamps null: false
     end

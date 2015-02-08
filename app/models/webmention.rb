@@ -3,7 +3,6 @@ class Webmention < ActiveRecord::Base
     presence: true
 
   validate :validate_source_links_to_target, on: :create
-  before_create :discover_type
 
   def source_page
     @source_page ||= begin
@@ -22,11 +21,5 @@ private
     unless source_link.present?
       errors.add(:source, "contains no link to target")
     end
-  end
-
-  # Look at the actual link to determine the type of this webmention.
-  #
-  def discover_type
-    # TODO
   end
 end

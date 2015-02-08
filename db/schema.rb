@@ -58,12 +58,10 @@ ActiveRecord::Schema.define(version: 20150207193808) do
     t.string   "target"
     t.uuid     "source_post_id"
     t.uuid     "target_post_id"
-    t.string   "rel"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
 
-  add_index "webmentions", ["rel"], name: "index_webmentions_on_rel", using: :btree
   add_index "webmentions", ["source_post_id"], name: "index_webmentions_on_source_post_id", using: :btree
   add_index "webmentions", ["target_post_id"], name: "index_webmentions_on_target_post_id", using: :btree
   add_index "webmentions", ["user_id"], name: "index_webmentions_on_user_id", using: :btree
