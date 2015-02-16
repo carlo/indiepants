@@ -150,5 +150,7 @@ article.h-entry {
 
 .document-information {
   color: $light-color;
+  a { color: inherit }
   margin-top: 3em;
+
 }
