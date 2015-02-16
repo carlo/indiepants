@@ -59,5 +59,10 @@ describe Pants::Document do
       expect(link.target.url).to eq("http://www.planetcrap.com/")
       expect(link.rel).to eq("foo")
     end
+
+    it "doesn't create entries for unknown local targets" do
+      subject.html = %[Here's a link to <a href="#{subject.user.url}">myself</a>!]
+      expect { subject.save! }.to_not change { Pants::Link.count }
+    end
   end
 end
