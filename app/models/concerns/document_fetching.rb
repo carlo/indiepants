@@ -31,7 +31,7 @@ module DocumentFetching
   def fetch_from_microformats(page)
     if h_entry = page.at_css('.h-entry')
       self.html = h_entry.at_css('.e-content').try { inner_html.strip }
-      self.title = h_entry.at_css('.p-name').try { text }
+      self.title = h_entry.at_css('.p-name').try { text } || page.at_css('head>title').try { text }
       self.published_at = h_entry.at_css('.dt-published').try { attr('datetime') }
 
       :microformats
@@ -40,7 +40,10 @@ module DocumentFetching
 
   def fetch_from_magic_extraction(page)
     # TODO: apply some magic extraction algorithm!
-    false
+    # self.html = page.inner_html
+    self.title = page.at_css('head>title').try { text }
+
+    :extraction
   end
 
   # Returns true if it's time to fetch the contents for this post.
