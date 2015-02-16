@@ -34,6 +34,39 @@ class Pants::Document < ActiveRecord::Base
     end
   end
 
+  concerning :Links do
+    included do
+      has_many :outgoing_links,
+        class_name: "Pants::Link",
+        as: "source",
+        dependent: :destroy
+
+      has_many :incoming_links,
+        class_name: "Pants::Link",
+        as: "target",
+        dependent: :destroy
+
+      after_save { populate_links_from_html if local? }
+    end
+
+    def populate_links_from_html
+      # purge existing links
+      outgoing_links.delete_all
+
+      # create new links depending on content
+      Nokogiri::HTML(html).css('a').each do |a|
+        Pants::Link.create! do |link|
+          link.source = self
+          link.rel    = a['rel']   # TODO: or analyze CSS
+
+          target = Pants::Document.from_url(a['href'], fetch: false)
+          target.save!
+          link.target = target
+        end
+      end
+    end
+  end
+
   validates :slug,
     presence: true,
     uniqueness: { scope: :user_id },
