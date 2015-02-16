@@ -5,7 +5,7 @@ module Pants
     before_action :ensure_logged_in!, except: [:show, :index]
 
     def index
-      @documents = current_site.documents.latest
+      @documents = current_site.documents.newest
 
       respond_with @documents do |format|
         format.atom

@@ -1,4 +1,6 @@
 class Pants::Link < ActiveRecord::Base
+  include Scopes
+  
   belongs_to :source,
     polymorphic: true
 

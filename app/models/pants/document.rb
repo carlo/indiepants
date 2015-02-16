@@ -1,10 +1,9 @@
 class Pants::Document < ActiveRecord::Base
   acts_as_paranoid
 
+  include Scopes
   include DocumentTypeSupport
   include DocumentFetching
-
-  scope :latest, -> { order("created_at DESC") }
 
   belongs_to :user,
     class_name: "Pants::User",
