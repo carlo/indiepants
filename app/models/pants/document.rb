@@ -53,8 +53,8 @@ class Pants::Document < ActiveRecord::Base
     end
 
     def populate_links_from(html)
-      # purge existing links
-      outgoing_links.delete_all
+      # Remember these for later
+      marked_for_deletion = outgoing_links.pluck(:id)
 
       # create new links depending on content
       Nokogiri::HTML(html).css('a').each do |a|
@@ -69,7 +69,15 @@ class Pants::Document < ActiveRecord::Base
           target.save!
           link.target = target
           link.save!
+
+          # We don't need to delete this one
+          marked_for_deletion.delete(link.id)
         end
+      end
+
+      # Let's delete those that are still marked for deletion
+      if marked_for_deletion.any?
+        outgoing_links.where(id: marked_for_deletion).destroy_all
       end
 
       # Update all linked documents
