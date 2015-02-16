@@ -4,7 +4,7 @@ module Background
   cattr_writer :mode
 
   def mode
-    @@mode || :threads
+    @@mode || :inline
   end
 
   def go(&blk)
