@@ -7,6 +7,7 @@ concern :DocumentFetching do
     return false if local?
 
     # Load and parse the page
+    Rails.logger.info "Fetching #{url}"
     doc = HTTParty.get(url, timeout: 10.seconds).to_s
     page = Nokogiri::HTML(doc)
 
@@ -24,6 +25,7 @@ concern :DocumentFetching do
       if pants_json_url = link.first.try(:[], "href")
         json = HTTParty.get(URI.join(url, pants_json_url))
         consume_json(json)
+        populate_links_from(html)
 
         :pants
       end
@@ -35,6 +37,7 @@ concern :DocumentFetching do
       self.html = h_entry.at_css('.e-content').try { inner_html.strip }
       self.title = h_entry.at_css('.p-name').try { text } || page.at_css('head>title').try { text }
       self.published_at = h_entry.at_css('.dt-published').try { attr('datetime') }
+      populate_links_from(h_entry.inner_html)
 
       :microformats
     end
