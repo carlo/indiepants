@@ -59,7 +59,7 @@ class Pants::Document < ActiveRecord::Base
           link.source = self
           link.rel    = a['rel']   # TODO: or analyze CSS
 
-          target = Pants::Document.from_url(a['href'], fetch: false)
+          target = Pants::Document.from_url(a['href'])
           target.save!
           link.target = target
         end
