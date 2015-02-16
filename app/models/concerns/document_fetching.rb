@@ -73,7 +73,8 @@ module DocumentFetching
       #
       uri = URI(url)
       if user = Pants::User.where(host: uri.host).take
-        user.documents.where(path: uri.path).take
+        user.documents.where(path: uri.path).take ||
+          user.documents.where("? = ANY (previous_paths)", uri.path).take
       end
     end
 
