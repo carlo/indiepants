@@ -1,6 +1,4 @@
-module DocumentFetching
-  extend ActiveSupport::Concern
-
+concern :DocumentFetching do
   def fetch!
     # Check if we have a URL
     raise "no URL given" if url.blank?
@@ -67,7 +65,7 @@ module DocumentFetching
     self
   end
 
-  module ClassMethods
+  class_methods do
     # Update/create a post given a URL.
     #
     def from_url(url, fetch: true)
