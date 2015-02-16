@@ -1,8 +1,23 @@
 module Background
   extend self
 
+  cattr_writer :mode
+
+  def mode
+    @@mode || :threads
+  end
+
   def go(&blk)
-    Thread.new { backgroundable(&blk).call }
+    fn = backgroundable(&blk)
+
+    case mode
+    when :threads
+      Thread.new { fn.call }
+    when :inline
+      fn.call
+    else
+      raise "invalid mode #{mode}"
+    end
   end
 
   private
