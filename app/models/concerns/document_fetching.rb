@@ -72,9 +72,9 @@ module DocumentFetching
 
     # Update/create a post given a URL.
     #
-    def from_url(url)
+    def from_url(url, fetch: true)
       (at_url(url) || new(url: url)).tap do |post|
-        if post.fetch?
+        if fetch && post.fetch?
           post.fetch!
           post.save!
         end
