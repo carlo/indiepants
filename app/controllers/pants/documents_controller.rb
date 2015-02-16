@@ -35,6 +35,11 @@ module Pants
       respond_with @document
     end
 
+    def remote
+      @document = Pants::Document.from_url("http://#{params[:url]}")
+      render :show
+    end
+
     def new
       @document = current_site.documents.build
       respond_with @document
