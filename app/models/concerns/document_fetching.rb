@@ -9,7 +9,7 @@ module DocumentFetching
     return false if local?
 
     # Load and parse the page
-    doc = HTTParty.get(url).to_s
+    doc = HTTParty.get(url, timeout: 10.seconds).to_s
     page = Nokogiri::HTML(doc)
 
     fetch_from_pants_json(page) ||
