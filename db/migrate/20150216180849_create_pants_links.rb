@@ -1,6 +1,6 @@
 class CreatePantsLinks < ActiveRecord::Migration
   def change
-    create_table :pants_links do |t|
+    create_table :pants_links, id: :uuid do |t|
       # Source
       t.uuid   :source_id,   null: false
       t.string :source_type, null: false

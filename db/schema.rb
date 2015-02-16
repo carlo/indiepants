@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150216180849) do
   add_index "pants_documents", ["user_id", "path"], name: "index_pants_documents_on_user_id_and_path", unique: true, using: :btree
   add_index "pants_documents", ["user_id", "previous_paths"], name: "index_pants_documents_on_user_id_and_previous_paths", using: :btree
 
-  create_table "pants_links", force: :cascade do |t|
+  create_table "pants_links", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "source_id",   null: false
     t.string   "source_type", null: false
     t.uuid     "target_id",   null: false
