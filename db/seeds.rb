@@ -16,4 +16,6 @@ if Rails.env.development?
   Pants::Post.create! user: alice, body: "Hi, I'm Alice! \o/"
 
   Pants::Post.create! user: bob, body: "Hello, I am Bob."
+
+  Pants::Post.create! user: alice, body: "I like linking to www.planetcrap.com."
 end
