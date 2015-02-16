@@ -45,10 +45,10 @@ class Pants::Document < ActiveRecord::Base
         as: "target",
         dependent: :destroy
 
-      after_save { populate_links_from_html if local? }
+      after_save { populate_links_from(html) if local? }
     end
 
-    def populate_links_from_html
+    def populate_links_from(html)
       # purge existing links
       outgoing_links.delete_all
 
