@@ -15,6 +15,10 @@ module DocumentFetching
     fetch_from_pants_json(page) ||
       fetch_from_microformats(page) ||
       fetch_from_magic_extraction(page)
+
+  rescue StandardError => e
+    Rails.logger.error "Error while fetching #{url}: #{e}"
+    false
   end
 
   def fetch_from_pants_json(page)
