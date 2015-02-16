@@ -62,10 +62,16 @@ class Pants::Document < ActiveRecord::Base
           link.source = self
           link.rel    = a['rel']   # TODO: or analyze CSS
 
-          target = Pants::Document.from_url(a['href'])
+          target = Pants::Document.from_url(a['href'], fetch: false)
           target.save!
           link.target = target
         end
+      end
+
+      # Update all linked documents
+      outgoing_links.reload.each do |link|
+        link.target.fetch!
+        link.target.save!
       end
     end
   end
