@@ -68,16 +68,6 @@ module DocumentFetching
   end
 
   module ClassMethods
-    def at_url(url)
-      # TODO: we can probably change this to a single query.
-      #
-      uri = URI(url)
-      if user = Pants::User.where(host: uri.host).take
-        user.documents.where(path: uri.path).take ||
-          user.documents.where("? = ANY (previous_paths)", uri.path).take
-      end
-    end
-
     # Update/create a post given a URL.
     #
     def from_url(url, fetch: true)
