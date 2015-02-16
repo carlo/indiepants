@@ -29,14 +29,16 @@ concern :DocumentLinks do
 
       target = Pants::Document.from_url(a['href'], fetch: false)
 
-      # We don't want to create new local documents.
-      unless target.local? && target.new_record?
-        target.save!
+      # We're only interested in links to existing local documents.
+      if target.local? && target.persisted?
         link.target = target
         link.save!
 
         # We don't need to delete this one
         marked_for_deletion.delete(link.id)
+      elsif target.remote?
+        # TODO: send webmention
+        # ...and discard this link
       end
     end
 
