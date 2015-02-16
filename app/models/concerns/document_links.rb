@@ -44,11 +44,5 @@ concern :DocumentLinks do
     if marked_for_deletion.any?
       outgoing_links.where(id: marked_for_deletion).destroy_all
     end
-
-    # Update all linked documents
-    outgoing_links.reload.each do |link|
-      link.target.fetch!
-      link.target.save!
-    end
   end
 end
