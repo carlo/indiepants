@@ -58,13 +58,17 @@ class Pants::Document < ActiveRecord::Base
 
       # create new links depending on content
       Nokogiri::HTML(html).css('a').each do |a|
-        Pants::Link.create! do |link|
-          link.source = self
-          link.rel    = a['rel']   # TODO: or analyze CSS
+        link = Pants::Link.new
+        link.source = self
+        link.rel    = a['rel']   # TODO: or analyze CSS
 
-          target = Pants::Document.from_url(a['href'], fetch: false)
+        target = Pants::Document.from_url(a['href'], fetch: false)
+
+        # We don't want to create new local documents.
+        unless target.local? && target.new_record?
           target.save!
           link.target = target
+          link.save!
         end
       end
 
