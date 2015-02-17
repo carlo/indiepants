@@ -5,7 +5,7 @@ class Pants::Document < ActiveRecord::Base
   include DocumentTypeSupport
   include DocumentFetching
   include DocumentLinks
-  
+
   belongs_to :user,
     class_name: "Pants::User",
     foreign_key: "user_id",
@@ -48,7 +48,7 @@ class Pants::Document < ActiveRecord::Base
   end
 
   def generate_slug
-    SecureRandom.hex(6)
+    SecureRandom.hex(12)
   end
 
   # Generate a unique slug by adding a numerical, incremental suffix
